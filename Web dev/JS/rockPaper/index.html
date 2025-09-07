@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <h2>Rock Paper Scissors</h2>
+
+    <!-- Move selection buttons -->
+    <div>
+        <button onclick="playGame('Rock')" class="moveButton">
+            <img src="Images/rock-emoji.png" alt="Rock" class="moveIcon" />
+        </button>
+        <button onclick="playGame('Paper')" class="moveButton">
+            <img src="Images/paper-emoji.png" alt="Paper" class="moveIcon" />
+        </button>
+        <button onclick="playGame('Scissors')" class="moveButton">
+            <img src="Images/scissors-emoji.png" alt="Scissors" class="moveIcon" />
+        </button>
+    </div>
+
+    <!-- Player and Computer move displays -->
+    <div class="moveDisplay">
+        <p><strong>Your Move:</strong></p>
+        <img id="player-move-img" class="moveIcon hidden" src="" alt="Your Move" />
+
+        <p><strong>Computer's Move:</strong></p>
+        <img id="computer-move-img" class="moveIcon hidden" src="" alt="Computer Move" />
+    </div>
+
+    <p id="result"></p>
+    <p id="scoreDisplay"></p>
+
+    <button onclick="resetScore()">Reset Score</button>
+
+    <script></script>
+</body>
+</html>
