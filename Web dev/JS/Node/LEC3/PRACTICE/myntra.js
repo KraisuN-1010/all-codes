@@ -1,7 +1,7 @@
 const http = require("http");
-
+const fs = require("fs");
 const server = http.createServer((req, res) => {
-  console.log(req.url, req.method, req.headers);
+  console.log(req.url, req.method);
 
   const htmlCodeHome = `
     <!DOCTYPE html>
@@ -64,20 +64,45 @@ const server = http.createServer((req, res) => {
     res.write(htmlCodeProducts);
     return res.end();
   } else if (req.url === "/submit-details" && req.method === "POST") {
+    // Collect the form data
+    let body = '';
+    
     req.on("data", (chunk) => {
-      console.log("Chunk:", chunk); // raw Buffer
+      console.log("Chunk (Buffer):", chunk); // Log the raw Buffer
+      console.log("Chunk (as string):", chunk.toString()); // Log the string representation
+      console.log("Chunk length:", chunk.length); // Log buffer length
+      console.log("Buffer bytes:", Array.from(chunk)); // Log individual bytes
+      body += chunk.toString(); // Convert buffer to string and accumulate
     });
 
     req.on("end", () => {
       console.log("Finished receiving data");
+      console.log("Complete form data:", body); // Log the complete parsed form data
+      console.log("URL decoded form data:", decodeURIComponent(body)); // URL decode for readability
+      
+      // Set headers and redirect
       res.statusCode = 302;
+      const params = new URLSearchParams(body);
+      // for (const [key, value] of params.entries()) {
+      //   jsonObject[key] = value;
+      // }
+      const jsonObject = Object.fromEntries(params);
+      console.log(jsonObject);
+      fs.writeFileSync("user-details.txt", JSON.stringify(jsonObject));
       res.setHeader("Location", "/");
-      return res.end();
+      res.end();
     });
 
     req.on("error", (err) => {
       console.error("Error while receiving data:", err);
+      res.statusCode = 500;
+      res.setHeader("Content-Type", "text/html");
+      res.end("<h1>Internal Server Error</h1>");
     });
+    
+    // IMPORTANT: Return here to prevent the code from continuing to the 404 handler
+    return;
+    
   } else if (req.url === "/hash") {
     const htmlCodeForHash = `
     <html>
@@ -86,25 +111,28 @@ const server = http.createServer((req, res) => {
       </head>
       <body>
         <h1>
-          This is the products page
+          This is the features page
         </h1>
       </body>
     </html> 
     `;
+    res.statusCode = 200;
     res.setHeader("Content-Type", "text/html");
     res.write(htmlCodeForHash);
     return res.end();
   }
 
+  // 404 handler - only reached if none of the above conditions match
+  res.statusCode = 404;
   res.setHeader("Content-Type", "text/html");
   res.write(`
     <html>  
       <head>
-        <title>This is the first responce</title>
+        <title>Page Not Found</title>
       </head>
       <body>
         <h1>
-          This is the 404 page
+          404 - Page Not Found
         </h1> 
       </body>
     </html>  

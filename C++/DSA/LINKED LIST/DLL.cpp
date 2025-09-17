@@ -14,13 +14,15 @@ class Node{
 };
 Node* createDll(vector<int> &nums){
     Node* head = new Node(nums[0]);
-    Node* prev = head;
+    Node* prev 
+    
+       = head;
     for(int i = 0; i < nums.size(); i++) {
         Node* temp = new Node(nums[i], nullptr, prev);
         prev->next = temp;
         prev = temp;  
     }
-    return head;
+    return head
 }
 void printLinkedList(Node* head) {
     Node* temp = head;
