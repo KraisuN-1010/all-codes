@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Coding/Web dev/JS/Node",
-      "program": "c:/Coding/Web dev/JS/Node/build/Debug/outDebug",
+      "cwd": "c:/Coding/C++/DSA/BIT MANIPULATION",
+      "program": "c:/Coding/C++/DSA/BIT MANIPULATION/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
