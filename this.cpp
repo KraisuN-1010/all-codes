@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
 int main(){
-    int *arr = new int[10];
-    *arr = 10;
+    cout << "Hello, World!" << endl;
+    return 0;
 }
