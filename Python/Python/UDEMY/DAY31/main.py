@@ -63,4 +63,4 @@ right_button.grid(row = 2, column = 2)
 
 next_card()
 
-window.mainloop()
+window.mainloop() 
