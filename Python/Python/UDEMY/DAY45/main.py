@@ -1,32 +1,23 @@
-import requests
 from bs4 import BeautifulSoup
+import requests
 
-response = requests.get("https://news.ycombinator.com/news")
+#  Website to be scraped
+WEBSITE = 'https://web.archive.org/web/20200518073855/https://www.empireonline.com/movies/features/best-movies-2/'
 
-if response.status_code == 200:
-    soup = BeautifulSoup(response.text, "html.parser")
-    articles = soup.select("span.titleline > a")
-    
-    article_texts = []
-    article_links = []
+response = requests.get(WEBSITE)
+movies_site = response.text
 
-    if not articles:
-        print("Could not find any articles. The HTML structure might have changed.")
-    else:
-        for article in articles:
-            text = article.get_text()
-            link = article.get('href')
-            article_texts.append(text)
-            article_links.append(link)
+soup = BeautifulSoup(movies_site, 'html.parser')
 
-        print("--- Article Texts ---")
-        print(article_texts)
-        print("\n--- Article Links ---")
-        print(article_links)
+#  Get all movie titles (nested in a h3 tag)
+movie_titles_tags = soup.select('h3.title')
+#  Iterate through tags and put it in a list
+movie_list = [tag.getText() for tag in movie_titles_tags]
 
-        article_upvotes = [int(score.getText().split()[0]) for score in soup.find_all(name="span",class_="score")]
-        print("_____________________________________")
-        print(article_upvotes)
+#  Reverse the list to get 1-100 -- Can also be done by doing movie_list[::-1]
+movie_list.reverse()
 
-else:
-    print(f"Failed to retrieve the page. Status code: {response.status_code}")
+#  Open the file and store the movie titles in a txt
+with open('movies.txt', mode="w") as file:
+    for item in movie_list:
+        file.write(f"{item}\n")
